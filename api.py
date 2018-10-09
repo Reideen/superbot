@@ -24,12 +24,12 @@ def main():
     # Функция получает тело запроса и возвращает ответ.
     updater = Updater(token='350756715:AAHdbRURFAyWJ6K_hLkS30wNDs5V9z6iUic')  # Токен API к Telegram
     dispatcher = updater.dispatcher
-
+    logging.info("Запуск бота")
 
     # Обработка команд
     def startCommand(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text='Привет, давай пообщаемся?')
-        logging.log("Начат чат")
+        logging.info("Начат чат")
 
 
     def textMessage(bot, update):
@@ -54,6 +54,9 @@ def main():
     dispatcher.add_handler(text_message_handler)
     # Начинаем поиск обновлений
     updater.start_polling(clean=True)
+    logging.info("Хэндлеры добавлены")
+
+main()
 
 if __name__ == '__main__':
     app.run()
