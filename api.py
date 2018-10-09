@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 
 # Импортируем модули для работы с JSON и логами.
 import json
-import logging
+import logging, apiai, json
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
@@ -21,10 +22,6 @@ sessionStorage = {}
 
 def main():
     # Функция получает тело запроса и возвращает ответ.
-    # Настройки
-    from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-    import apiai, json
-
     updater = Updater(token='350756715:AAHdbRURFAyWJ6K_hLkS30wNDs5V9z6iUic')  # Токен API к Telegram
     dispatcher = updater.dispatcher
 
@@ -32,6 +29,7 @@ def main():
     # Обработка команд
     def startCommand(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text='Привет, давай пообщаемся?')
+        logging.log("Начат чат")
 
 
     def textMessage(bot, update):
