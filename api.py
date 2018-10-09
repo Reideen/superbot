@@ -1,23 +1,16 @@
-# coding: utf-8
-# Импортирует поддержку UTF-8.
-from __future__ import unicode_literals
-
-import apiai, json
+import apiai, json, logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
 app = Flask(__name__)
 
-# Хранилище данных о сессиях.
-sessionStorage = {}
-
 # Задаем параметры приложения Flask.
-@app.route('/')
+#@app.route('/')
 
 def main():
     # Функция получает тело запроса и возвращает ответ.
-    updater = Updater(token='350756715:AAHdbRURFAyWJ6K_hLkS30wNDs5V9z6iUic')  # Токен API к Telegram
+    updater = Updater(token='486690728:AAHJJfmnn5yzSAQeiv5OzBW3p4FA9ytsJ0Y')  # Токен API к Telegram
     dispatcher = updater.dispatcher
     print("Запуск бота")
 
@@ -28,7 +21,7 @@ def main():
 
 
     def textMessage(bot, update):
-        request = apiai.ApiAI('fbbeb98758a2488789b601b9e76b85ac').text_request()  # Токен API к Dialogflow
+        request = apiai.ApiAI('ecc6943654264bd4b60e788154e1a016').text_request()  # Токен API к Dialogflow
         request.lang = 'ru'  # На каком языке будет послан запрос
         request.session_id = 'superbotinok'  # ID Сессии диалога (нужно, чтобы потом учить бота)
         request.query = update.message.text  # Посылаем запрос к ИИ с сообщением от юзера
@@ -48,8 +41,8 @@ def main():
     dispatcher.add_handler(start_command_handler)
     dispatcher.add_handler(text_message_handler)
     # Начинаем поиск обновлений
-    updater.start_polling(clean=True)
     print("Хэндлеры добавлены")
+    return updater.start_polling(clean=True)
 
 main()
 app.run()
