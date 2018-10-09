@@ -2,17 +2,12 @@
 # Импортирует поддержку UTF-8.
 from __future__ import unicode_literals
 
-# Импортируем модули для работы с JSON и логами.
-import json
-import logging, apiai, json
+import apiai, json
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
 app = Flask(__name__)
-
-
-logging.basicConfig(level=logging.DEBUG)
 
 # Хранилище данных о сессиях.
 sessionStorage = {}
