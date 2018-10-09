@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.DEBUG)
 sessionStorage = {}
 
 # Задаем параметры приложения Flask.
-@app.route("/", methods=['POST','GET'])
+@app.route('/')
 
 def main():
     # Функция получает тело запроса и возвращает ответ.
@@ -56,5 +56,6 @@ def main():
     dispatcher.add_handler(text_message_handler)
     # Начинаем поиск обновлений
     updater.start_polling(clean=True)
-    # Останавливаем бота, если были нажаты Ctrl + C
-    updater.idle()
+
+if __name__ == '__main__':
+    app.run()
