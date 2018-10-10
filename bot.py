@@ -1,4 +1,4 @@
-import apiai, json, logging
+import apiai, json, logging, os
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # Импортируем подмодули Flask для запуска веб-сервиса.
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 def main():
     # Функция получает тело запроса и возвращает ответ.
-    updater = Updater(token='486690728:AAHJJfmnn5yzSAQeiv5OzBW3p4FA9ytsJ0Y')  # Токен API к Telegram
+    updater = Updater(token=os.environ.get('BOT_KEY', None))  # Токен API к Telegram
     dispatcher = updater.dispatcher
     print("Запуск бота")
 
@@ -21,7 +21,7 @@ def main():
 
 
     def textMessage(bot, update):
-        request = apiai.ApiAI('ecc6943654264bd4b60e788154e1a016').text_request()  # Токен API к Dialogflow
+        request = apiai.ApiAI(os.environ.get('DF_KEY', None)).text_request()  # Токен API к Dialogflow
         request.lang = 'ru'  # На каком языке будет послан запрос
         request.session_id = 'superbotinok'  # ID Сессии диалога (нужно, чтобы потом учить бота)
         request.query = update.message.text  # Посылаем запрос к ИИ с сообщением от юзера
