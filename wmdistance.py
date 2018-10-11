@@ -1,5 +1,5 @@
 from gensim.test.utils import common_texts, get_tmpfile
-import logging, preprocessing, nltk, codecs, sys
+import logging, preprocessing, nltk, codecs
 from gensim.models import KeyedVectors
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -15,7 +15,9 @@ with codecs.open('resources/meeting.txt', 'r', 'utf-8') as file:
             section = []
             page_num = page_num + 1
             continue
-        section.append(line)
+        section.append(preprocessing.tag_ud(line))
+
+print(text_list)
 
 for i in range(0, len(text_list)):
     text_list[i] = [w for line in text_list[i] for w in line]
@@ -36,10 +38,8 @@ logging.info("downloading stopwords...")
 nltk.download("stopwords")
 stopwords = nltk.corpus.stopwords.words("russian")
 
-while True:
-    input_text = sys.stdin.readline()
-    tagged_input = preprocessing.tag_ud(text=input_text)
-    for i in range(0, len(text_list)):
-        text = ([preprocessing.tag_ud(text=w) for line in text_list[i] for w in line])
-        print("{0} \n {1}\n".format(text_list[i], model.wmdistance([w for w in tagged_input if w not in stopwords],
+for line in test_sentences_tagged:
+    for text in text_list:
+        print("{0} \n {1} \n {2}\n".format(text, line, model.wmdistance([w for w in line if w not in stopwords],
                                           [w for w in text if w not in stopwords])))
+

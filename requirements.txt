@@ -2,3 +2,9 @@ Flask==1.0.2
 python-telegram-bot==9.0.0
 apiai==1.2.3
 gensim==3.6.0
+xlrd==1.1.0
+wget==3.2
+requests==2.18.4
+simplejson==3.16.0
+pyemd==0.5.1
+nltk==3.3
