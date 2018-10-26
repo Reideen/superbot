@@ -1,20 +1,34 @@
 import logging, preprocessing, nltk, codecs
 from gensim.models import KeyedVectors
 from VectorizedAnswer import VectorizedAnswer
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+#logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 
 parsed_answers = []
-with codecs.open('resources/changepay.txt', 'r', 'utf-8') as file:
-    for question in file:
-        parsed_answers.append(VectorizedAnswer(question, preprocessing.tag_ud(question)))
+
+import glob
+files = glob.glob("resources/**/*.txt", recursive=True)
+for path in files:
+    with codecs.open(path, 'r', 'utf-8') as file:
+        print(path)
+        readed = file.read()
+        parsed_answers.append(VectorizedAnswer(readed, preprocessing.tag_ud(readed)))
 
 print(parsed_answers)
-print('loaded')
 
-test_sentences = ["как повысить зарплату", "как зависит зарплата от категории",
-                  "в какой момент повышается зарплата", "к кому обращаться по повышению",
-                  "регулярной оценки сотрудников"]
+test_sentences = [
+"В какой момент повышается зарплата",
+"Как повысить зарплату",
+"Когда пересмотр часовой ставки",
+"При аттестации будет пересмотр зарплаты",
+"В какой момент повышается зарплата",
+"Как повысить зарплату",
+"Как отменить заявление на отпуск",
+"Как получить книгу из библиотеки",
+"Где оформить отсутствие в офисе",
+"Куда отметить обучение",
+"Какие документы надо предоставить при смене фамилии",
+]
 
 test_sentences_tagged = []
 for question in test_sentences:
