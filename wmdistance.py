@@ -10,11 +10,9 @@ import glob
 files = glob.glob("resources/**/*.txt", recursive=True)
 for path in files:
     with codecs.open(path, 'r', 'utf-8') as file:
-        print(path)
+        #print(path)
         readed = file.read()
         parsed_answers.append(VectorizedAnswer(readed, preprocessing.tag_ud(readed)))
-
-print(parsed_answers)
 
 test_sentences = [
 "В какой момент повышается зарплата",
@@ -34,8 +32,6 @@ test_sentences_tagged = []
 for question in test_sentences:
     test_sentences_tagged.append(VectorizedAnswer(question, preprocessing.tag_ud(text=question)))
 
-print(test_sentences_tagged)
-
 model = KeyedVectors.load_word2vec_format('resources/ruwikiruscorpora_upos_skipgram_300_2_2018.vec')
 logging.info("downloading stopwords...")
 nltk.download("stopwords")
@@ -53,8 +49,9 @@ def search_answer(question):
     print('Вопрос: ' + question.line)
     answer_keys = sorted(answers, key=answers.get)
     from itertools import islice
-    for key in islice(answer_keys, 3):
-      print(str(answers[key]) + ' Ответ: ' + key.line)
+    for key in islice(answer_keys, 1):
+      #print(str(answers[key]) + ' Ответ: ' + key.line)
+      print(' Ответ: ' + key.line)
 
 
 for question in test_sentences_tagged:
@@ -63,3 +60,4 @@ for question in test_sentences_tagged:
 user_input = input('What?:')
 while user_input != 'stop':
     search_answer(VectorizedAnswer(user_input, preprocessing.tag_ud(user_input)))
+    user_input = input('What?:')
