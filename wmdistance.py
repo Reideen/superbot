@@ -41,7 +41,8 @@ logging.info("downloading stopwords...")
 nltk.download("stopwords")
 stopwords = nltk.corpus.stopwords.words("russian")
 
-for question in test_sentences_tagged:
+
+def search_answer(question):
     answers = {}
     for answer in parsed_answers:
         document1 = [w for w in question.vec if w not in stopwords]
@@ -49,4 +50,16 @@ for question in test_sentences_tagged:
         distance = model.wmdistance(document1, document2)
         if distance != float("inf"):
             answers[answer] = distance
-    print('Вопрос: ' + question.line + '\r\nОтвет: ' + min(answers, key=answers.get).line)
+    print('Вопрос: ' + question.line)
+    answer_keys = sorted(answers, key=answers.get)
+    from itertools import islice
+    for key in islice(answer_keys, 3):
+      print(str(answers[key]) + ' Ответ: ' + key.line)
+
+
+for question in test_sentences_tagged:
+    search_answer(question)
+
+user_input = input('What?:')
+while user_input != 'stop':
+    search_answer(VectorizedAnswer(user_input, preprocessing.tag_ud(user_input)))
