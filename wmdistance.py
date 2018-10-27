@@ -15,18 +15,15 @@ for path in files:
         parsed_answers.append(VectorizedAnswer(readed, preprocessing.tag_ud(readed)))
 
 test_sentences = [
-"В какой момент повышается зарплата",
-"Как повысить зарплату",
-"Когда пересмотр часовой ставки",
-"При аттестации будет пересмотр зарплаты",
-"В какой момент повышается зарплата",
-"Как повысить зарплату",
-"Как отменить заявление на отпуск",
-"Как получить книгу из библиотеки",
-"Где оформить отсутствие в офисе",
-"Куда отметить обучение",
-"Какие документы надо предоставить при смене фамилии",
+    "Пустите в офис",
+    "Я потерял пропуск",
+    "Что делать при болезни?",
+    "Куда отметить установку программ?",
+    "Как отменить отпуск?",
+    "Что делать при смене фамилии?",
+    "Как арендовать машину?",
 ]
+test_sentences = []
 
 test_sentences_tagged = []
 for question in test_sentences:
@@ -46,7 +43,7 @@ def search_answer(question):
         distance = model.wmdistance(document1, document2)
         if distance != float("inf"):
             answers[answer] = distance
-    print('Вопрос: ' + question.line)
+    #print('Вопрос: ' + question.line)
     answer_keys = sorted(answers, key=answers.get)
     from itertools import islice
     for key in islice(answer_keys, 1):
@@ -57,7 +54,7 @@ def search_answer(question):
 for question in test_sentences_tagged:
     search_answer(question)
 
-user_input = input('What?:')
-while user_input != 'stop':
+user_input = input('Вопрос: ')
+while user_input != 'стоп':
     search_answer(VectorizedAnswer(user_input, preprocessing.tag_ud(user_input)))
-    user_input = input('What?:')
+    user_input = input('Вопрос: ')
