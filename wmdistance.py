@@ -1,11 +1,10 @@
-import logging, preprocessing, nltk, codecs, gensim
+import logging, preprocessing, nltk, codecs
 from gensim.models import KeyedVectors
 from VectorizedAnswer import VectorizedAnswer
 #logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 
 parsed_answers = []
-training_data = []
 
 import glob
 files = glob.glob("resources/**/*.txt", recursive=True)
@@ -14,7 +13,6 @@ for path in files:
         print(path)
         readed = file.read()
         parsed_answers.append(VectorizedAnswer(readed, preprocessing.tag_ud(readed)))
-        training_data.append(readed.lower().split())
 
 print(parsed_answers)
 
@@ -31,32 +29,6 @@ test_sentences = [
 "Куда отметить обучение",
 "Какие документы надо предоставить при смене фамилии",
 ]
-
-logging.info("downloading stopwords...")
-nltk.download("stopwords")
-stopwords = nltk.corpus.stopwords.words("russian")
-
-clear_training_data = []
-
-for data in training_data:
-    clear_training_data.append( [w for w in data if w not in stopwords])
-
-print('Training started')
-
-# build vocabulary and train model
-ownmodel = gensim.models.Word2Vec(
-    clear_training_data,
-    size=500,
-    window=10,
-    min_count=2,
-    workers=10)
-
-ownmodel.train(clear_training_data, total_examples=len(clear_training_data), epochs=10)
-w1 = [ "зарплата" ]
-print(ownmodel.wv.most_similar(positive = w1, topn=50))
-
-ownmodel.wv.save_word2vec_format("own.vec")
-print('Training finished')
 
 test_sentences_tagged = []
 for question in test_sentences:
@@ -91,4 +63,3 @@ for question in test_sentences_tagged:
 user_input = input('What?:')
 while user_input != 'stop':
     search_answer(VectorizedAnswer(user_input, preprocessing.tag_ud(user_input)))
-    user_input = input('What?:')
